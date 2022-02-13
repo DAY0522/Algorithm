@@ -1,9 +1,7 @@
 import sys
 
 M, N = map(int, sys.stdin.readline().split())
-board = []
-for i in range(M):
-    board.append(sys.stdin.readline().strip())
+board = [sys.stdin.readline().strip() for _ in range(M)]
 
 mini = list()
 for i in range(M-7):
