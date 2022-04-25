@@ -1,3 +1,4 @@
+# for loop 이용
 def solution(participant, completion):
     participant.sort()
     completion.sort()
