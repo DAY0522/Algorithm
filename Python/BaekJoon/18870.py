@@ -1,10 +1,14 @@
-import sys
-input = sys.stdin.readline
+# 18870번 좌표 압축
+# https://www.acmicpc.net/problem/18870
 
 N = int(input())
-coordinate = list(map(int, input().split()))
-s_coordinate = sorted(set(coordinate))
-d_coordinate = {s_coordinate[i]:i for i in range(len(s_coordinate))}
+coord = list(map(int, input().split()))
 
-for c in coordinate:
-    print(d_coordinate[c], end=' ')
+ans = sorted(set(coord))
+
+result = dict()
+for i in range(len(ans)):
+    result[ans[i]] = i
+
+for c in coord:
+    print(result[c], end=' ')
