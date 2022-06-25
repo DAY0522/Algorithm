@@ -1,40 +1,36 @@
 # 1926번 그림
+# https://www.acmicpc.net/problem/1926
+
 import sys
 from collections import deque
 read = sys.stdin.readline
 
-n, m = map(int, read().split())
-pict = list() # 그림 배열
-for i in range(n):
-    pict.append(list(map(int, read().split())))
-visited = [[0 for _ in range(m)] for _ in range(n)] # 방문 정보를 저장할 배열(방문 하면 1, 하지 않았으면 0)
+n, m = map(int, input().split())
+picture = list(list(map(int, read().strip().split())) for _ in range(n))
+visit = list([0 for _ in range(m)] for _ in range(n))
+dx = [-1, 1, 0, 0] # 행
+dy = [0, 0, -1, 1] # 열
+q = deque()
+ans = 0
+max_size = 0
 
-# 상하좌우 방향 배열 생셩
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
-
-cnt = 0 # 그림의 개수
-area = 0 # 최대 그림의 면적
-max_area = 0
-for row in range(n): # 행
-    for col in range(m): # 열
-        if pict[row][col]==1 and visited[row][col]==0: # 그림이 존재하고, 아직 방문하지 않은 경우
-            cnt += 1
-            area = 1
-            que = deque()  # 덱 생성
-            que.append((row, col))
-            visited[row][col] = 1 # 방문 표시
-            while que: # 큐가 비어있지 않으면
-                x, y = que.popleft()
-                for i in range(4): # 상하좌우 탐색
-                    nx = x+dx[i] # 행 조절
-                    ny = y+dy[i] # 열 조절
-                    if nx<0 or nx>=n or ny<0 or ny>=m or visited[nx][ny]==1: # 인덱스를 넘어서거나 이미 방문한 경우
-                        continue
-                    visited[nx][ny] = 1 # 방문 했으므로 1을 넣어줌
-                    if pict[nx][ny]==1: # 주변에 그림이 있으면
-                        que.append((nx, ny))
-                        area += 1
-            max_area = max(max_area, area)
-print(cnt)
-print(max_area)
+for col in range(m):
+    for row in range(n):
+        if not visit[row][col] and picture[row][col]: # 방문하지 않고, 색칠 됐을 때
+            size = 1
+            q.append((row, col))
+            visit[row][col] = 1
+            while q: # q가 빌 때까지 계속 진행
+                p_x, p_y = q.popleft()
+                for i in range(4):
+                    x = p_x + dx[i]
+                    y = p_y + dy[i]
+                    if x >= 0 and x < n and y >= 0 and y < m:
+                        if picture[x][y] and not visit[x][y]: # 색칠 돼있고 방문 안 했을 시 q에 추가
+                            size += 1
+                            q.append((x,y))
+                            visit[x][y] = 1
+            max_size = max(max_size, size)
+            ans += 1
+print(ans)
+print(max_size)
