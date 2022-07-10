@@ -1,47 +1,40 @@
-# 7576 토마토
+# 7576번 토마토
+# https://www.acmicpc.net/problem/7576
+
 import sys
 from collections import deque
 read = sys.stdin.readline
 
-# 상하좌우
-dx = [0, 0, -1, 1]
-dy = [-1, 1, 0, 0]
+M, N = map(int, input().split()) # 가로/세로
+tomatoes = [list(map(int, read().strip().split())) for _ in range(N)]
+visit = [[0 for _ in range(M)] for _ in range(N)]
+q = deque()
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
-def is_ripen(g): # 그래프 내의 토마토가 모두 익었는지 확인. 다 익었으면 True, 아니면 False
-    result = True
-    for g in graph: # 처음부터 다 익은 경우
-        if g.count(0) != 0:  # 0이 하나라도 있으면 break
-            result = False
-            break
-    return result
+for row in range(N):
+    for col in range(M):
+        if tomatoes[row][col] == 1:
+            q.append((row,col))
 
-def tomato():
-    que = deque()
-    day = -1
-    for row in range(h):
-        for col in range(w):
-            if graph[row][col] == 1: # 초기 토마토의 위치
-                que.append((row, col)) # 초기 토마토 (행, 열) 위치 삽입
-    while que:
-        day += 1
-        s = len(que)
-        for _ in range(s):
-            y, x = que.popleft()
-            for i in range(4):
-                nx = x + dx[i]
-                ny = y + dy[i]
-                if nx>=0 and nx<w and ny>=0 and ny<h and graph[ny][nx]==0:
-                    graph[ny][nx]=1
-                    que.append((ny, nx))
-    if is_ripen(graph): print(day)
-    else: print(-1)
+while q:
+    p_x, p_y = q.popleft()
 
-if __name__ == '__main__':
-    w, h = map(int, read().split())
-    graph = [list(map(int, read().split())) for _ in range(h) ]
+    for i in range(4):
+        x = p_x + dx[i]
+        y = p_y + dy[i]
+        if x>=0 and x<N and y>=0 and y<M:
+            if not visit[x][y] and tomatoes[x][y] == 0:
+                q.append((x,y))
+                tomatoes[x][y] = 1 # 익은 토마토를 1로 변경
+                visit[x][y] = visit[p_x][p_y] + 1 # 일수 저장
 
-    if is_ripen(graph): # 다 익은 경우
-        print(0)
+for t in tomatoes:
+    if t.count(0):  # 안 익은 게 있을 시
+        print(-1)
         exit()
 
-    tomato()
+day = 0
+for v in visit:
+    day = max(day, max(v))
+print(day)
