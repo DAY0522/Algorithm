@@ -1,23 +1,22 @@
+# 2579번 계단 오르기
+# https://www.acmicpc.net/problem/2579
+
+# 2차원 배열을 사용한 풀이 방법
 import sys
-from collections import deque
-input = sys.stdin.readline
+read = sys.stdin.readline
 
-N = int(input()) # 계단 개수
-s = deque([int(input().strip()) for _ in range(N)])
-s.appendleft(0) # 인덱스 맞추기 위해 0 추가
-res = [0] * (N+1) # 출력 결과
+N = int(read().strip())
+stair = [0]+[int(read().strip()) for _ in range(N)]
+dp = [[0,0,0] for _ in range(N+1)]
+# 첫 번째는 현재 계단의 인덱스, 두 번째는 몇 칸 연속 올라왔는지에 대한 인덱스
 
-if N == 1: # N이 1일 때 런타임 에러 방지
-    print(s[1])
-else:
-    # 1, 2일 때는 예외
-    res[1] = s[1]
-    res[2] = s[2] + s[1]
-
-    # i층에 오를 때,
-    # i의 전 층에서 올라오는 경우
-    # i의 전전 층에서 올라오는 경우 존재
-    for i in range(3, N+1):
-        res[i] = max(s[i] + s[i-1] + res[i-3], s[i] + res[i-2])
-
-    print(res[N])
+if N==1:
+    print(stair[1])
+    exit()
+dp[1][1] = stair[1]
+dp[2][1] = stair[2]
+dp[2][2] = stair[1]+stair[2]
+for i in range(3,N+1):
+    dp[i][1] = stair[i] + max(dp[i-2][1], dp[i-2][2])
+    dp[i][2] = stair[i] + dp[i-1][1]
+print(max(dp[N][1], dp[N][2]))
