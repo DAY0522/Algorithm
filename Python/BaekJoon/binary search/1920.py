@@ -1,25 +1,28 @@
-def binary_search(num, size, lst):
-    left = 0
-    right = size-1
+# 1920번 수 찾기
+# https://www.acmicpc.net/problem/1920
 
-    while left<=right:
-        mid = (left + right)//2
-        if lst[mid] == num:
+def binary_search(nums, n):
+    l = 0
+    r = len(nums)-1
+
+    while l<=r:
+        mid = (l+r)//2
+        if nums[mid]<n:
+            l = mid+1
+        elif nums[mid]>n:
+            r = mid-1
+        else: # 동일한 경우
             return True
-        if num < lst[mid]:
-            right=mid-1
-        if num > lst[mid]:
-            left=mid+1
+    return False
 
 N = int(input())
-N_list = list(map(int, input().split()))
-N_list.sort()
+arr1 = sorted(list(map(int, input().split())))
 
 M = int(input())
-M_list = list(map(int, input().split()))
+arr2 = list(map(int, input().split()))
 
-for i in range(M):
-    if binary_search(M_list[i], N, N_list):
+for m in arr2:
+    if binary_search(arr1, m):
         print(1)
     else:
         print(0)
