@@ -4,6 +4,8 @@ import sys
 read = sys.stdin.readline
 
 N = int(read().strip())
-lect = [list(map(int, read().split())) for _ in range(N)]
-bool = [False] * N
+lecture = [list(map(int, read().split())) for _ in range(N)]
+time = [] # 각 강의실의 마지막 강의 시간
 
+lecture.sort(key=lambda x:(x[1], x[0]))
+print(lecture)
