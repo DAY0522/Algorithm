@@ -1,23 +1,18 @@
 def solution(number, k):
-    answer = ''
+    answer = [] # stack
     
-    N = len(number)
-    visit = [False] * N # 사용했는지 여부
-    cur = -1
-    for i in range(N - k, 0, -1):
-        # print(i)
-        num = -1
-        idx = -1
-        for j in range(cur+1, N-i+1):
-            # print(f'cur: {cur}, number: {number[j]}')
-            if int(number[j]) > num and visit[j] == False:
-                num = int(number[j])
-                idx = j
-                cur = idx
-                if num == 9:
-                    break
-        visit[idx] = True
-        answer += str(num)
-                
+    for num in number:
+        if not answer: # answer가 비어있는 경우
+            answer.append(num)
+            continue
         
-    return answer
+        while k>0 and answer[-1] < num: # 이후에 오는 숫자가 더 큰경우
+            answer.pop() # 이전 숫자 제거
+            k -= 1 # 하나 제거 했으므로 k-1
+            if not answer:
+                break
+        answer.append(num)
+    
+    answer = answer[:-k] if k>0 else answer
+        
+    return "".join(answer)
