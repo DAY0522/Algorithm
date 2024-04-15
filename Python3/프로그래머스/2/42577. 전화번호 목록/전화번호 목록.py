@@ -5,7 +5,7 @@ def solution(phone_book):
     for i in range(len(phone_book)-1):
         first = phone_book[i]
         second = phone_book[i+1]
-        if len(first) < len(second) and first == second[:len(first)]:
+        if first == second[:len(first)]:
             return False
         
     return True
