@@ -14,7 +14,7 @@ class Solution {
         }
     }
     
-    public int[] solution(String[] genres, int[] plays) {
+    public ArrayList<Integer> solution(String[] genres, int[] plays) {
         
         ArrayList<Integer> answer = new ArrayList<>();
         HashMap<String, Integer> map = new HashMap<>();
@@ -44,6 +44,6 @@ class Solution {
         }
         
         // System.out.println(answer);
-        return answer.stream().mapToInt(i->i).toArray();
+        return answer;
     }
 }
