@@ -1,3 +1,6 @@
+import sys
+sys.setrecursionlimit(10**6)
+
 def solution(tickets):
     result = [] # 모든 경로를 저장하는 리스트
     for i in range(len(tickets)):
