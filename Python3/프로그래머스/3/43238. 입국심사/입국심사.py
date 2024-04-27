@@ -4,7 +4,6 @@ def solution(n, times):
     return answer
 
 def binary_search(start, end, times, n):
-    result = float('inf')
     while start <= end:
         mid = (start+end)//2 # 모든 사람이 심사를 받는데 걸리는 시간
         num = 0 # 탐색 받은 사람의 수
@@ -15,7 +14,6 @@ def binary_search(start, end, times, n):
             start = mid + 1 # 시간을 늘려야 함.
         else: # 기존 사람보다 많이 확인한 경우
             end = mid - 1 # 시간을 줄여야 함.
-            if mid < result:
-                result = mid
+            result = mid
     
     return result
