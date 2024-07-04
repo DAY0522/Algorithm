@@ -49,3 +49,6 @@ def graph_type(node, edge):
         return 2
     elif node+1 == edge: # 8자 모양
         return 3
+    
+    print("error")
+    return 0
